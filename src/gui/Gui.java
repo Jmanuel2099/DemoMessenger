@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,9 +35,8 @@ public class Gui extends javax.swing.JFrame {
         this.users = new ArrayList<>();
         this.messagesAll = new ArrayList<>();
         this.messagesPrivate = new ArrayList<>();
-
-        //this.socketMessenger = new SocketMessenger();
         initComponents();
+        this.CB_Users.removeAllItems();
     }
 
     @SuppressWarnings("unchecked")
@@ -57,6 +57,8 @@ public class Gui extends javax.swing.JFrame {
         lbTitleMessPrivate = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         lbMessPrivate = new javax.swing.JLabel();
+        CB_Users = new javax.swing.JComboBox<>();
+        lbUsersCount = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chat");
@@ -68,7 +70,7 @@ public class Gui extends javax.swing.JFrame {
 
         btnEnviar.setBackground(new java.awt.Color(51, 51, 51));
         btnEnviar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEnviar.setText("A todos");
+        btnEnviar.setText("Enviar");
         btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarActionPerformed(evt);
@@ -86,7 +88,6 @@ public class Gui extends javax.swing.JFrame {
         });
 
         T_F_Message.setBackground(new java.awt.Color(153, 153, 153));
-        T_F_Message.setText("hola");
         T_F_Message.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         T_F_Message.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,7 +116,17 @@ public class Gui extends javax.swing.JFrame {
 
         lbTitleMessPrivate.setText("Mensajes privados");
 
+        lbMessPrivate.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jScrollPane3.setViewportView(lbMessPrivate);
+
+        CB_Users.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        CB_Users.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CB_UsersActionPerformed(evt);
+            }
+        });
+
+        lbUsersCount.setText("Uuarios conectados");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,40 +136,37 @@ public class Gui extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane3)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(lbTitleMessPublic)
-                                .addGap(303, 303, 303))
-                            .addComponent(lbTitleMessPrivate, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lbTitleUsers)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(btnEnviar)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(btnSalir)))
-                                        .addGap(45, 45, 45))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jScrollPane1)
-                                        .addGap(23, 23, 23))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(T_F_Message, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(23, 23, 23))))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(T_F_NameUser, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnRegistrar))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(btnRegistrar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane3)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(lbTitleMessPublic)
+                                        .addGap(303, 303, 303))
+                                    .addComponent(lbTitleMessPrivate, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbTitleUsers)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(lbUsersCount))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(T_F_Message, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnEnviar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(CB_Users, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(27, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,7 +174,8 @@ public class Gui extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(T_F_NameUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRegistrar))
+                    .addComponent(btnRegistrar)
+                    .addComponent(btnSalir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbTitleUsers)
@@ -174,13 +183,15 @@ public class Gui extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbUsersCount)
+                        .addGap(18, 18, 18)
                         .addComponent(T_F_Message, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnEnviar)
-                            .addComponent(btnSalir)))
+                            .addComponent(CB_Users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -194,10 +205,21 @@ public class Gui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-        String messageAll = this.T_F_Message.getText();
-        sendPublicMessage(messageAll);
+        String message = this.T_F_Message.getText();
+        if (message.length() != 0) {
+            String destination = this.CB_Users.getSelectedItem().toString();
+            if (destination.equals("Publico")) {
+                sendPublicMessage(message);
+                this.lbMessagePublic.setText(getMessagesPublic());
+            } else {
+                sendPrivateMessage(message, destination);
+                this.lbMessPrivate.setText(getMessagesPrivate());
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Mensaje vacio. ", "CAMPO VACIO", JOptionPane.WARNING_MESSAGE);
+        }
 
-        this.lbMessagePublic.setText(getMessagesPublic());
+
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void T_F_MessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_F_MessageActionPerformed
@@ -212,7 +234,7 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void T_F_NameUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_F_NameUserActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_T_F_NameUserActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -222,9 +244,14 @@ public class Gui extends javax.swing.JFrame {
             this.btnRegistrar.setEnabled(false);
             this.T_F_NameUser.setEditable(false);
             this.readText();
+        } else {
+            JOptionPane.showMessageDialog(null, "Campo vacio. ", "CAMPO VACIO", JOptionPane.WARNING_MESSAGE);
         }
-
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void CB_UsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CB_UsersActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CB_UsersActionPerformed
 
     public void RegisterUser(String usuario) {
         String command = "REGISTER " + usuario;
@@ -243,14 +270,17 @@ public class Gui extends javax.swing.JFrame {
 
     public void read(String dato) {
         String[] datos = dato.split(" ");
-        //System.out.println("- " + datos[0] + " * " + datos[1]);
         if ("5000".equals(datos[0])) {
-            //System.out.println("entro user");
             String[] userList = datos[1].split(";");
             this.lbUsers.setText(getUsers(userList));
+            setUsersConnect(userList.length);
+            setItemBox(userList);
         }
-        if ("4010".equals(datos[0])) {
-            //System.out.println("entre privados");
+        if ("4000".equals(datos[0])) {
+            this.messagesPrivate.add(sentMessage());
+            this.lbMessPrivate.setText(getMessagesPrivate());
+        }
+        if ("4010".equals(datos[0]) ) {
             String message = datos[1] + ": ";
             for (int i = 2; i < datos.length; i++) {
                 message += datos[i] + " ";
@@ -259,8 +289,11 @@ public class Gui extends javax.swing.JFrame {
             this.lbMessPrivate.setText(getMessagesPrivate());
         }
 
-        if ("2010".equals(datos[0]) || "2000".equals(datos[0])) {
-            //System.out.println("Entro all");
+        if ("2000".equals(datos[0])) {
+            this.messagesAll.add(sentMessage());
+            this.lbMessagePublic.setText(getMessagesPublic());
+        }
+        if ("2010".equals(datos[0])) {
             String message = datos[1] + ": ";
             for (int i = 2; i < datos.length; i++) {
                 message += datos[i] + " ";
@@ -286,12 +319,12 @@ public class Gui extends javax.swing.JFrame {
     }
 
     private String getUsers(String[] usersName) {
-        String users = "<html>";
+        String usersM = "<html>";
         for (int i = 0; i < usersName.length; i++) {
-            users += usersName[i] + " <br>";
+            usersM += usersName[i] + " <br>";
         }
-        users = users + "<html>";
-        return users;
+        usersM = usersM + "<html>";
+        return usersM;
     }
 
     private String getMessagesPublic() {
@@ -310,6 +343,25 @@ public class Gui extends javax.swing.JFrame {
         }
         messages = messages + "<html>";
         return messages;
+    }
+
+    public void setItemBox(String[] userList) {
+        this.CB_Users.removeAllItems();
+        this.CB_Users.addItem("Publico");
+        for (int i = 0; i < userList.length; i++) {
+            if (!userList[i].equals(this.T_F_NameUser.getText())) {
+                this.CB_Users.addItem(userList[i]);
+            }
+            
+        }
+    }
+    
+    public void setUsersConnect(int usersCount){
+        this.lbUsersCount.setText("usuarios conectados: " + usersCount);
+    }
+    
+    public String sentMessage(){
+        return "Tu: " + this.T_F_Message.getText();   
     }
 
     /**
@@ -349,6 +401,7 @@ public class Gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> CB_Users;
     private javax.swing.JTextField T_F_Message;
     private javax.swing.JTextField T_F_NameUser;
     private javax.swing.JButton btnEnviar;
@@ -363,5 +416,6 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JLabel lbTitleMessPublic;
     private javax.swing.JLabel lbTitleUsers;
     private javax.swing.JLabel lbUsers;
+    private javax.swing.JLabel lbUsersCount;
     // End of variables declaration//GEN-END:variables
 }
