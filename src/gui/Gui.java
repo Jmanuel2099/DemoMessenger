@@ -36,7 +36,7 @@ public class Gui extends javax.swing.JFrame {
         this.messagesAll = new ArrayList<>();
         this.messagesPrivate = new ArrayList<>();
         initComponents();
-        this.CB_Users.removeAllItems();
+        startingitems();
     }
 
     @SuppressWarnings("unchecked")
@@ -215,11 +215,11 @@ public class Gui extends javax.swing.JFrame {
                 sendPrivateMessage(message, destination);
                 this.lbMessPrivate.setText(getMessagesPrivate());
             }
-        }else{
-            JOptionPane.showMessageDialog(null, "Mensaje vacio. ", "CAMPO VACIO", JOptionPane.WARNING_MESSAGE);
+            this.T_F_Message.setText(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "Mensaje vacio. ",
+                    "CAMPO VACIO", JOptionPane.WARNING_MESSAGE);
         }
-
-
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void T_F_MessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_F_MessageActionPerformed
@@ -227,10 +227,10 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_T_F_MessageActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        /*this.socketMessenger.exit();
+        exit();
         this.btnRegistrar.setEnabled(true);
         this.T_F_NameUser.setText(null);
-        this.T_F_NameUser.setEditable(true);*/
+        this.T_F_NameUser.setEditable(true);
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void T_F_NameUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_T_F_NameUserActionPerformed
@@ -241,17 +241,32 @@ public class Gui extends javax.swing.JFrame {
         String nameUser = this.T_F_NameUser.getText();
         if (nameUser.length() != 0) {
             this.RegisterUser(nameUser);
-            this.btnRegistrar.setEnabled(false);
-            this.T_F_NameUser.setEditable(false);
+            runningItems();
             this.readText();
         } else {
-            JOptionPane.showMessageDialog(null, "Campo vacio. ", "CAMPO VACIO", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nombre de usuario vacio. ",
+                    "CAMPO VACIO", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void CB_UsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CB_UsersActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CB_UsersActionPerformed
+
+    public void runningItems() {
+        this.btnEnviar.setEnabled(true);
+        this.T_F_Message.setEnabled(true);
+        this.CB_Users.setEnabled(true);
+        this.btnRegistrar.setEnabled(false);
+        this.T_F_NameUser.setEditable(false);
+    }
+
+    public void startingitems() {
+        this.CB_Users.removeAllItems();
+        this.btnEnviar.setEnabled(false);
+        this.T_F_Message.setEnabled(false);
+        this.CB_Users.setEnabled(false);
+    }
 
     public void RegisterUser(String usuario) {
         String command = "REGISTER " + usuario;
@@ -280,7 +295,7 @@ public class Gui extends javax.swing.JFrame {
             this.messagesPrivate.add(sentMessage());
             this.lbMessPrivate.setText(getMessagesPrivate());
         }
-        if ("4010".equals(datos[0]) ) {
+        if ("4010".equals(datos[0])) {
             String message = datos[1] + ": ";
             for (int i = 2; i < datos.length; i++) {
                 message += datos[i] + " ";
@@ -315,7 +330,7 @@ public class Gui extends javax.swing.JFrame {
 
     public void exit() {
         String command = "QUIT";
-        this.socketController.writeText(command);
+        this.sc.writeText(command);
     }
 
     private String getUsers(String[] usersName) {
@@ -352,16 +367,16 @@ public class Gui extends javax.swing.JFrame {
             if (!userList[i].equals(this.T_F_NameUser.getText())) {
                 this.CB_Users.addItem(userList[i]);
             }
-            
+
         }
     }
-    
-    public void setUsersConnect(int usersCount){
+
+    public void setUsersConnect(int usersCount) {
         this.lbUsersCount.setText("usuarios conectados: " + usersCount);
     }
-    
-    public String sentMessage(){
-        return "Tu: " + this.T_F_Message.getText();   
+
+    public String sentMessage() {
+        return "Tu: " + this.T_F_Message.getText();
     }
 
     /**
